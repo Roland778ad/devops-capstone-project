@@ -70,7 +70,7 @@ def create_accounts():
 
 # ... place you code here to READ an account ...
 
-@app route("/accounts/<int:account_id>", methods=["GET"])
+@app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     """
     Reads and account
