@@ -125,6 +125,7 @@ class TestAccountService(TestCase):
 
     # ADD YOUR TEST CASES HERE ...
 
+    # Test the READ function with existing account
     def test_get_account(self):
         """It should read a single file"""
         account = self._create_accounts(1)[0]
@@ -135,7 +136,17 @@ class TestAccountService(TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], account.name)
 
+    # Test READ function with non-existent acount
     def test_account_not_found(self):
         """This should test response for an account that is not in database"""
         resp = self.client.get(f"{BASE_URL}/0", content_type="application/json")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    # Test LIST function with existing account
+    def test_list_accoount(self):
+        """It should return a list of all accounts in database"""
+        self._create_accounts(5)
+        resp = self.client.get(BASE_URL) 
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 5)
