@@ -69,6 +69,9 @@ def create_accounts():
 ######################################################################
 
 # ... place you code here to READ an account ...
+@app route("/accounts/<id>", methods=["GET"])
+def read_account(id):
+    account = Account.find()
 
 
 ######################################################################
