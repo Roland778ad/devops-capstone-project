@@ -150,3 +150,35 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
+
+      # Test Update service
+      def test_update_account(self):
+        """It should update an account"""
+        # Create an account
+        account = self_create_account(1)[0]
+        # update the account
+        new_account = account.get_json() # get json version of the account
+        new_account["name"] = "New Data" # Over write the name in the account
+        resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account) # Send PUT request to server to update the data in database
+        # Verify that data was updated
+        updated_account = resp.get_json() # Get JSON type data from the update's response message
+        assertEqual(updated_account['name'], "New Data") # Compare new data's 'name' element values
+        # Verify the HTTP status code
+        assertEqual(resp.status_code, status.HTTP_200_OK)
+
+      # Test update service as per INSTRUCTION
+      # def test_update_account(self):
+      #   """It should update an account"""
+      #   # Create an account
+      #   test_account = AccountFactory() # Create account with imported AccountFactory() function
+      #   resp = self.client.post(BASE_POST, json=test_account.serialize()) # POST the account info to server
+      #   assertEqual(resp.status_code, status.HTTP_201_CREATED) # Verify status code for creating new account
+      #   # update the test_account
+      #   new_account = resp.get_json()
+      #   new_account["name"] = "Something Known"
+      #   resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)
+      #   # Verify update success
+      #   assertEqual(resp.status_code, status.HTTP_200_OK)
+      #   updated_account = resp.get_json()
+      #   assertEqual(updated_account['name'], 'Something Known")       
+    
