@@ -94,7 +94,7 @@ def read_account(account_id):
 ######################################################################
 
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
-def update_account():
+def update_accounts(account_id):
     """
     Update an existing account
     This will update an account based on the information provided.
