@@ -157,13 +157,10 @@ class TestAccountService(TestCase):
     #     # Create an account
     #     account = self._create_accounts(1)[0]
     #     # update the account
-    #     resp = self.client.get(f"{BASE_URL}/0", content_type="application/json") # recall the account
-    #     new_account = resp.get_json()
-    #     new_account["name"] = "New Data" # Over write the name in the account
-    #     resp2 = self.client.put(f"{BASE_URL}/0", json=new_account) # Send PUT request to server to update the data in database
+    #     account.name = "New Name" #update the name on the account
+    #     resp = self.client.put(f"{BASE_URL}/{account.id}", json=account) # Send PUT request to server to update the data in database
     #     # Verify that data was updated
-    #     updated_account = resp2.get_json() # Get JSON type data from the update's response message
-    #     self.assertEqual(updated_account["name"], "New Data") # Compare new data's 'name' element values
+    #     self.assertEqual(resp["name"], "New Data") # Compare new data's 'name' element values
     #     # Verify the HTTP status code
     #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
