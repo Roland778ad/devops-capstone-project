@@ -129,7 +129,7 @@ class TestAccountService(TestCase):
     def test_get_account(self):
         """It should read a single file"""
         account = self._create_accounts(1)[0]
-        resp = self.client.get (
+        resp = self.client.get(
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -199,3 +199,11 @@ class TestAccountService(TestCase):
     #   account = self._create_account(1)[0]
     #   resp = self.client.delete(f"{BASE_URL}/{account.id}")
     #   self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    # Test wrong method request
+    def test_method_request_not_allowed(self):
+      """It should test for error message when wrong method is requested"""
+      resp = self.client.delete(BASE_URL)
+      self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
