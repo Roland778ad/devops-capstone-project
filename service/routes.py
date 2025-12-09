@@ -111,7 +111,7 @@ def update_accounts(account_id):
 # DELETE AN ACCOUNT
 ######################################################################
 
-@app.route("/accounts/<int:account_id>", methodS=["DELETE"])
+@app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
     """Delete an existing account based on the account ID"""
     app.logger.info(f"Request to delete an account with account id: {account_id}")
