@@ -146,42 +146,41 @@ class TestAccountService(TestCase):
     def test_list_accoount(self):
         """It should return a list of all accounts in database"""
         self._create_accounts(5)
-        resp = self.client.get(BASE_URL) 
+        resp = self.client.get(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
 
-    # # Test Update service
-    # def test_update_account(self):
-    #     """It should update an account"""
-    #     # Create an account
-    #     account = self._create_accounts(1)[0]
-    #     # update the account
-    #     account["name"] = "New Name" # update the name on the account
-    #     # Send PUT request to server with updated data as a dictionary
-    #     resp = self.client.put(f"{BASE_URL}/{account.id}", json=account.serialize()) 
-    #     # Verify the HTTP status code
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)     
-    #     # Verify that "name" data was updated
-    #     updated_account = resp.get_json()
-    #     self.assertEqual(updated_account["name"], "New Name") # Compare 'name' key values
-   
+    # Test Update service ACCOUNT_NOT_FOUNT
+    def test_update_account_not_found(self):
+        """It should return HTTP 404 ACCOUNT NOT FOUND"""
+        # Create an account
+        account = self._create_accounts(1)[0]
+        # update the account
+        account.name = "New Name"  # update the name on the account
+        # Send PUT request to server with updated data as a dictionary
+        resp = self.client.put(f"{BASE_URL}/2", json=account.serialize())
+        # Verify the HTTP status code
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+        # # Verify that "name" data was updated
+        # updated_account = resp.get_json()
+        # self.assertEqual(updated_account["name"], "New Name") # Compare 'name' key values
 
     # Test update service as per INSTRUCTION
     def test_update_account(self):
-      """It should update an account"""
-      # Create an account
-      test_account = AccountFactory() # Create account with imported AccountFactory() function
-      resp = self.client.post(BASE_URL, json=test_account.serialize()) # POST the account info to server as dict
-      self.assertEqual(resp.status_code, status.HTTP_201_CREATED) # Verify status code for creating new account
-      # update the test_account
-      new_account = resp.get_json() # Creates a dictionary from the json response object
-      new_account["name"] = "New Name"
-      resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account) # Returns a respose object
-      # Verify update success
-      self.assertEqual(resp.status_code, status.HTTP_200_OK)
-      updated_account = resp.get_json()
-      self.assertEqual(updated_account["name"], "New Name")       
+        """It should update an account"""
+        # Create an account
+        test_account = AccountFactory()  # Create account with imported AccountFactory() function
+        resp = self.client.post(BASE_URL, json=test_account.serialize())  # POST the account info to server as dict
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)  # Verify status code for creating new account
+        # update the test_account
+        new_account = resp.get_json()  # Creates a dictionary from the json response object
+        new_account["name"] = "New Name"
+        resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)  # Returns a respose object
+        # Verify update success
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_account = resp.get_json()
+        self.assertEqual(updated_account["name"], "New Name")
 
     # Test delete account alternative
     # def test_delete_account(self):
@@ -192,20 +191,18 @@ class TestAccountService(TestCase):
     #   self.assertEqual(resp.status_code, status.HTTP_201_CREATED) # Check if resp obj status code correct
     #   # Delete account
     #   new_account = resp.get_json() # Extract data as dictionary from response object int new_account variable
-    #   resp = self.client.delete(f"{BASE_URL}/{new_account["id"]}")      
+    #   resp = self.client.delete(f"{BASE_URL}/{new_account["id"]}")
     #   self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT) # Check if account is deleted
 
     # Test delete account
     def test_delete_account(self):
-      """It should delete an account based on an account ID"""
-      account = self._create_accounts(1)[0]
-      resp = self.client.delete(f"{BASE_URL}/{account.id}")
-      self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        """It should delete an account based on an account ID"""
+        account = self._create_accounts(1)[0]
+        resp = self.client.delete(f"{BASE_URL}/{account.id}")
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     # Test wrong method request
     def test_method_request_not_allowed(self):
-      """It should test for error message when wrong method is requested"""
-      resp = self.client.delete(BASE_URL)
-      self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
+        """It should test for error message when wrong method is requested"""
+        resp = self.client.delete(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
