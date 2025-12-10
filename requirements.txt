@@ -30,3 +30,6 @@ httpie==3.2.1
 
 # Security headers
 Flask-Talisman
+
+# CORS headers
+Flask-Cors
